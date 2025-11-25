@@ -59,8 +59,9 @@ library(dplR)
 
 The R-code provided below reproduces Figure 2 of the main manuscript.
 
-The dataframe `D` included in the R package `LSPCA` contains a realization of the 64 dimensional time series at times t = 1, ..., 1024. Detailed instruction on how to generate the samples are privided in the <a href="./Help_files/Data_Generation.md">data generation file</a>.  
-First we estimated the spectral density matrix.
+The dataframe `D` included in the R package `LSPCA` contains a realization of the 64 dimensional time series at times t = 1, ..., 1024. Detailed instruction on how to generate the samples are privided in the <a href="./Help_files/Data_Generation.md">data generation file</a>.
+
+First we estimate the spectral density matrix.
 
 ```r
 ## Multitaper Estimate
@@ -98,33 +99,15 @@ Next we estimate the leading principal subspace of the underlying spectral densi
 ##################################################
 ## Estimate of 1-dimensional principal subspaces
 ##################################################
-nu_v <- c(0,.2,.4,.6,.8,1)
-k <- 1
-nu <- nu_v[k]
 
+## Without smoothing
 LSDPCA_ADMM_SOAP_Ex1 <- LSPCA(n,p, f_xx1, lambda = 0.5 * sqrt(log(p) / n), d=1, lr = 0.02, maxiter = 60,
-                                                 control = list(fan_maxinc = 10, verbose = 0), eta=200, s=5, n_iter = 20, nu=nu_v[k])
+                                                 control = list(fan_maxinc = 10, verbose = 0), eta=200, s=5, n_iter = 20, nu=0)
 
 
-#gc()
-
-
-k <- 4
-nu <- nu_v[k]
-
+## With smoothing
 LSDPCA_ADMM_SOAP_Ex2 <- LSPCA(n,p, f_xx1, lambda = 0.5 * sqrt(log(p) / n), d=1, lr = 0.02, maxiter = 60,
-                                                 control = list(fan_maxinc = 10, verbose = 0), eta=200, s=5, n_iter = 20, nu=nu_v[k])
-
-
-#gc()
-
-
-f_MT_evec11 <- matrix(0, nrow=p, ncol = length(omega))
-for(ell in 1:length(omega)){
-  f_MT_evec_ell <- eigen(f_xx1[,,ell])$vectors[,1]
-  f_MT_evec11[,ell] <- f_MT_evec_ell
-  #gc()
-}
+                                                 control = list(fan_maxinc = 10, verbose = 0), eta=200, s=5, n_iter = 20, nu=0.6)
 
 
 ```
@@ -275,6 +258,14 @@ ggplot(gdat, aes(x = x, y = y, fill = z)) + geom_tile() +
 
 ```r
 ## Classic
+
+f_MT_evec11 <- matrix(0, nrow=p, ncol = length(omega))
+for(ell in 1:length(omega)){
+  f_MT_evec_ell <- eigen(f_xx1[,,ell])$vectors[,1]
+  f_MT_evec11[,ell] <- f_MT_evec_ell
+  #gc()
+}
+
 Localized_Est <- selector(f_MT_evec11,f_xx1,n/2,512,p)
 evecs <- t(Mod(Localized_Est[[1]]))
 v = as.matrix(evecs)

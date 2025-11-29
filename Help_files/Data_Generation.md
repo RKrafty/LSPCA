@@ -17,7 +17,7 @@ library(dplR)
 
 ```
 
-### Example
+## Time Domain
 
 The R-code provided below generates the dataframe D in the R package. Detailed description of the process is provided in the manuscript. 
 
@@ -148,5 +148,32 @@ X_original <- cbind(X_omega_2, X_wn)
 #shuffled_index <- sample.int(p)
 shuffled_index <- 1:p
 D <- X_original[,shuffled_index]
+
+```
+
+## Spectral Density Estimation
+
+The R-code provided below estimates the spectral density matrices of the time series simulated above. This reproduces the object `f_D` in the R package.
+
+```r
+
+## Estimation of the Spectral Density Matrices
+U <- sine.taper(n,10)
+X_tp <- apply(U, MARGIN = 2, function(u) u*D, simplify = FALSE)
+F_tp_list <- lapply(X_tp, FUN = function(Y) mvspec(Y,plot = FALSE) )
+
+len_freq <- n/2
+F_tp1 <- array(0, c(p, p, len_freq))
+for (ell in 1:len_freq) {
+  for(j in 1:length(F_tp_list)){
+    F_tp1[,,ell] <- F_tp1[,,ell] + F_tp_list[[j]]$fxx[,,ell]
+  }
+  F_tp1[,,ell] <- F_tp1[,,ell]/length(F_tp_list)
+}
+f_D <- F_tp1*n
+rm(U)
+rm(X_tp)
+rm(F_tp_list)
+gc()
 
 ```

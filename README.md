@@ -2,17 +2,18 @@
 
 `LSPCA` is an R-package that provides an implementation of the localized and sparse principal components of multivariate time series in the frequency domain. The algorithm is based on the paper
 [Localized Sparse Principal Component Analysis in Frequency Domain](https://arxiv.org/abs/2408.08177#)
-by Jamshid Namdari, Amita Manatunga,Fabio Ferrarelli, and Robert Krafty.
+by Jamshid Namdari, Amita Manatunga,Fabio Ferrarelli, and Robert Krafty. 
+
+In order to perform the localized and sparse principal component analysis in the frequency domain, users have two options. They can either use the function `LSPCA` and pass the time domain recording of the time series or they can use the function `LSPCA.f` and pass an estimate of the spectral density matrices.
 
 ## Installation
 
-Currently the `LSPCA` has not been submitted to CRAN, but it can be installed dirrectly from GitHub:
+The `LSPCA` can be installed dirrectly from GitHub:
 
 ```r
 library(devtools)
 install_github("jamnamdari/LSPCA")
 ```
-
 
 The `LSPCA()` function requires the user to install and call the following libraries
 
@@ -55,45 +56,25 @@ library(dplR)
 
 ```
 
-### Example
+## Example
+The dataframe `D` included in the R package `LSPCA` contains a realization of the 64 dimensional time series at times `t = 1, ..., 1024`. Detailed instruction on how to generate the samples are privided in the <a href="./Help_files/Data_Generation.md">data generation file</a>.
 
 The R-code provided below reproduces Figure 2 of the main manuscript.
 
-The dataframe `D` included in the R package `LSPCA` contains a realization of the 64 dimensional time series at times t = 1, ..., 1024. Detailed instruction on how to generate the samples are privided in the <a href="./Help_files/Data_Generation.md">data generation file</a>.
+### Using the function LSPCA
 
-First we estimate the spectral density matrix.
+The `LSPCA` function estimates the localized and sparse principal components of a multivariate time series in the frequency domain. Users can pass the time domain data to the function. Arguments of the function are as follows.
 
-```r
-## Multitaper Estimate
-U <- sine.taper(n,20)
-X_tp <- apply(U, MARGIN = 2, function(u) u*D, simplify = FALSE)
-F_tp_list <- lapply(X_tp, FUN = function(Y) mvspec(Y,plot = FALSE) )
-
-len_freq <- n/2
-F_tp1 <- array(0, c(p, p, len_freq))
-for (ell in 1:len_freq) {
-  for(j in 1:length(F_tp_list)){
-    F_tp1[,,ell] <- F_tp1[,,ell] + F_tp_list[[j]]$fxx[,,ell]
-  }
-  F_tp1[,,ell] <- F_tp1[,,ell]/length(F_tp_list)
-}
-f_xx1 <- F_tp1*n
-rm(U)
-rm(X_tp)
-rm(F_tp_list)
-gc()
-
-## Plot of the estimated spectral density
-plot(omega, f_xx1[1,1,1:512], type="l", ylim = c(0,30), ylab="", xlab="Frequency")
-for (k in 2:64) {
-  points(omega, f_xx1[k,k,1:512], type="l", col=k)
-}
-abline(v=c(0.05,0.25))
-
-```
++ X: a $p\times n$ dimensional matrix contining recordings of a $p$-dimensional time series at time points $t=1,\dots,n$.
++ d: is the dimension of the principal subspaces to be estimated.
++ eta: is the number of frequency components to be selected.
++ s: sparsity level of the principal subspaces.
++ n_iter: is the number of iteration of the SOPA algorithem.
++ theta: is the sommothing parameter.
++ ntp: number of tapers used in estimation of the spectral density matrices.
 
 
-Next we estimate the leading principal subspace of the underlying spectral density matrices over the frequency range [0,32] Hz.
+We estimate the leading principal subspace of the underlying spectral density matrices over the frequency range [0,0.5].
 
 ```r
 ##################################################
@@ -101,20 +82,18 @@ Next we estimate the leading principal subspace of the underlying spectral densi
 ##################################################
 
 ## Without smoothing
-LSDPCA_ADMM_SOAP_Ex1 <- LSPCA(n,p, f_xx1, lambda = 0.5 * sqrt(log(p) / n), d=1, lr = 0.02, maxiter = 60,
-                                                 control = list(fan_maxinc = 10, verbose = 0), eta=200, s=5, n_iter = 20, nu=0)
+LSDPCA_ADMM_SOAP_Ex1 <- LSPCA(D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0, ntp=20)
 
 
 ## With smoothing
-LSDPCA_ADMM_SOAP_Ex2 <- LSPCA(n,p, f_xx1, lambda = 0.5 * sqrt(log(p) / n), d=1, lr = 0.02, maxiter = 60,
-                                                 control = list(fan_maxinc = 10, verbose = 0), eta=200, s=5, n_iter = 20, nu=0.6)
+LSDPCA_ADMM_SOAP_Ex2 <- LSPCA(D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0.6, ntp=20)
 
 
 ```
 
-## Plots
+#### Plots
 
-### Bottom Left panel of Figure 2
+##### Bottom Left panel of Figure 2
 
 Bottom Left panel of Figure 2 of the main manuscript can be reproduced by the follwoing code.
 
@@ -167,7 +146,7 @@ ggplot(gdat, aes(x = x, y = y, fill = z)) + geom_tile() +
 ```
 <img src="./LSPCA_images/Mod_evec_heatmap_theta_0.jpeg" alt="" width="600px">
 
-### Bottom Right panel of Figure 2
+##### Bottom Right panel of Figure 2
 
 Bottom right panel of Figure 2 of the main manuscript can be reproduced by the following code.
 
@@ -224,7 +203,7 @@ ggplot(gdat, aes(x = x, y = y, fill = z)) + geom_tile() +
 
 ```r
 ## Population
-Localized_Est <- selector(f_evec11,f_xx1,n/2,(2/5)*512,p)
+Localized_Est <- selector(f_evec11,f_xx,n/2,(2/5)*512,p)
 evecs <- t(Mod(Localized_Est[[1]]))
 v = as.matrix(evecs)
 lo = min(v)
@@ -261,7 +240,7 @@ ggplot(gdat, aes(x = x, y = y, fill = z)) + geom_tile() +
 
 f_MT_evec11 <- matrix(0, nrow=p, ncol = length(omega))
 for(ell in 1:length(omega)){
-  f_MT_evec_ell <- eigen(f_xx1[,,ell])$vectors[,1]
+  f_MT_evec_ell <- eigen(f_D[,,ell])$vectors[,1]
   f_MT_evec11[,ell] <- f_MT_evec_ell
   #gc()
 }
@@ -296,6 +275,35 @@ ggplot(gdat, aes(x = x, y = y, fill = z)) + geom_tile() +
 
 ```
 <img src="./LSPCA_images/Mod_evec_heatmap_classic.jpeg" alt="" width="600px">
+
+
+### Using the function LSPCA.f
+
+The `LSPCA.f` function estimates the localized and sparse principal components of a multivariate time series in the frequency domain. Users can pass the frequency transformation of the data, i.e. an estimate of the spectral density matrices, to the function. Arguments of the function are as follows.
+
++ p: is the dimension of the time series.
++ n: is the length of the time series.
++ f_xx: is an array of dimensions $p\times p\times n$ contining an estimate of the $p\times p$-dimensional spectral density matrices at frequencies $f=\frac{\pi\ell}{n}, \ell=1,\dots,n/2$.
++ d: is the dimension of the principal subspaces to be estimated.
++ eta: is the number of frequency components to be selected.
++ s: sparsity level of the principal subspaces.
++ n_iter: is the number of iteration of the SOPA algorithem.
++ theta: is the smoothing parameter.
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+##################################################
+## Estimate of 1-dimensional principal subspaces
+##################################################
+nu_v <- c(0,.2,.4,.6,.8,1)
+
+## Without smoothing
+LSDPCA_ADMM_SOAP_Ex3 <- LSPCA.f(n,p,f_D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0)
+
+
+## With smoothing
+LSDPCA_ADMM_SOAP_Ex4 <- LSPCA.f(n,p,f_D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0.6)
+
+```
 
 
 # Data Analysis

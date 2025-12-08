@@ -11,5 +11,5 @@ LazyData: true
 Depends: 
     R (>= 2.10)
 Imports: RSpectra, gradfps, lpSolve
-Remotes: github::yixuan/gradfps, github::vqv/fps
+Remotes: github::yixuan/gradfps
 devtools::load_all() 

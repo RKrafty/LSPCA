@@ -2,7 +2,7 @@
 
 
 library(gradfps)
-library(fps)  # The modified version
+#library(fps)  # The modified version
 library(RSpectra)
 library(mvtnorm)
 library(Matrix)

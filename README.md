@@ -9,7 +9,7 @@ In order to perform the localized and sparse principal component analysis in the
 ## Installation
 
 ### Mac users
-In structionson how to run the LSPCA package for mac users are provided in <a href="./Help_files/Mac_Users_Instructions.md">mac useres instruction</a> file.
+In structionson how to run the LSPCA package for mac users are provided in <a href="./Help_files/Mac_Users_Instructions.md">mac users instruction</a> file.
 
 ### Windows users
 The `LSPCA` can be installed dirrectly from GitHub:

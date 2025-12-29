@@ -8,6 +8,10 @@ In order to perform the localized and sparse principal component analysis in the
 
 ## Installation
 
+### Mac users
+Please visit the link for instructions.
+
+### Windows users
 The `LSPCA` can be installed dirrectly from GitHub:
 
 ```r
@@ -82,11 +86,11 @@ We estimate the leading principal subspace of the underlying spectral density ma
 ##################################################
 
 ## Without smoothing
-LSDPCA_ADMM_SOAP_Ex1 <- LSPCA(D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0, ntp=20)
+Ex1 <- LSPCA(D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0, ntp=20)
 
 
 ## With smoothing
-LSDPCA_ADMM_SOAP_Ex2 <- LSPCA(D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0.6, ntp=20)
+Ex2 <- LSPCA(D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0.6, ntp=20)
 
 
 ```
@@ -114,7 +118,7 @@ font_size = 20/2
 
 
 
-Localized_Est <- selector(LSDPCA_ADMM_SOAP_Ex1[[1]],f_xx1,n/2,(2/5)*512,p)
+Localized_Est <- selector(Ex1[[1]],f_D,n/2,(2/5)*512,p)
 evecs <- t(Mod(Localized_Est[[1]]))
 v = as.matrix(evecs)
 lo = min(v)
@@ -167,7 +171,7 @@ font_size = 20/2
 
 
 
-Localized_Est <- selector(LSDPCA_ADMM_SOAP_Ex2[[1]],f_xx1,n/2,(2/5)*512,p)
+Localized_Est <- selector(Ex2[[1]],f_D,n/2,(2/5)*512,p)
 evecs <- t(Mod(Localized_Est[[1]]))
 v = as.matrix(evecs)
 lo = min(v)
@@ -245,7 +249,7 @@ for(ell in 1:length(omega)){
   #gc()
 }
 
-Localized_Est <- selector(f_MT_evec11,f_xx1,n/2,512,p)
+Localized_Est <- selector(f_MT_evec11,f_D,n/2,512,p)
 evecs <- t(Mod(Localized_Est[[1]]))
 v = as.matrix(evecs)
 lo = min(v)
@@ -355,9 +359,7 @@ Next we apply the LSPCA algorithm.
 
 ```r
 ## Localized and sparse PCA
-LSDPCA_ADMM_SOAP_Ex2 <- LSPCA(n,p, f_xx1, lambda = 0.5 * sqrt(log(p) / n), d=2, lr = 0.02, maxiter = 60,
-                                               control = list(fan_maxinc = 10, verbose = 0), eta=52, s=8, n_iter = 20, nu=0.6)
-
+HC_LSPCA <- LSPCA(HC, d=2, eta=52, s=8, n_iter = 20, theta=0.6)
 ```
 
 ### Plots
@@ -378,7 +380,7 @@ font_size = 20/2
 
 
 
-Localized_Est <- selector(LSDPCA_ADMM_SOAP_Ex2[[1]],f_xx1,n/2,52,p)
+Localized_Est <- selector(HC_LSPCA[[1]],f_xx1,n/2,52,p)
 evecs <- t(Mod(Localized_Est[[1]]))
 v = as.matrix(evecs)
 lo = min(v)
@@ -500,9 +502,8 @@ Next we apply the LSPCA algorithm.
 
 ```r
 ## Localized and sparse PCA
-LSDPCA_ADMM_SOAP_Ex2 <- LSPCA(n,p, f_xx1, lambda = 0.5 * sqrt(log(p) / n), d=2, lr = 0.02, maxiter = 60,
-                                               control = list(fan_maxinc = 10, verbose = 0), eta=41, s=8, n_iter = 20, nu=0.2)
 
+FEP_LSPCA <- LSPCA(FEP, d=2, eta=41, s=8, n_iter = 20, theta=0.2)
 ```
 
 ### Plots
@@ -521,7 +522,7 @@ font_size = 20/2
 
 
 
-Localized_Est <- selector(LSDPCA_ADMM_SOAP_Ex2[[1]],f_xx1,n/2,41,p)
+Localized_Est <- selector(FEP_LSPCA[[1]],f_xx1,n/2,41,p)
 evecs <- t(Mod(Localized_Est[[1]]))
 v = as.matrix(evecs)
 lo = min(v)

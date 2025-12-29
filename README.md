@@ -424,7 +424,7 @@ The top right panel of Figure 5 of the main manuscript can be reproduced by the 
 ```r
 freq_s <- Localized_Est[[2]]
 freq_selector <- matrix(rep(freq_s, p), nrow = p, byrow = TRUE)
-evec2_Re <- freq_selector*Mod(LSDPCA_ADMM_SOAP_Ex2[[2]])
+evec2_Re <- freq_selector*Mod(HC_LSPCA[[2]])
 evecs <- t(evec2_Re)
 v = as.matrix(evecs)
 lo = min(v)
@@ -566,7 +566,7 @@ The bottom right panel of Figure 5 of the main manuscript can be reproduced by t
 ```r
 freq_s <- Localized_Est[[2]]
 freq_selector <- matrix(rep(freq_s, p), nrow = p, byrow = TRUE)
-evec2_Re <- freq_selector*Mod(LSDPCA_ADMM_SOAP_Ex2[[2]])
+evec2_Re <- freq_selector*Mod(FEP_LSPCA[[2]])
 evecs <- t(evec2_Re)
 v = as.matrix(evecs)
 lo = min(v)

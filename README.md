@@ -205,6 +205,8 @@ ggplot(gdat, aes(x = x, y = y, fill = z)) + geom_tile() +
 
 ### Top Left Panel of Figure 2
 
+To run this code, you would first need to run the code provided in the <a href="./Help_files/Data_Generation.md">data generation file</a>.
+
 ```r
 ## Population
 Localized_Est <- selector(f_evec11,f_xx,n/2,(2/5)*512,p)
@@ -238,6 +240,8 @@ ggplot(gdat, aes(x = x, y = y, fill = z)) + geom_tile() +
 <img src="./LSPCA_images/Mod_evec_heatmap_population.jpeg" alt="" width="600px">
 
 ### Top Right Panel of Figure 2
+
+To run this code, you would first need to run the code provided in the <a href="./Help_files/Data_Generation.md">data generation file</a>.
 
 ```r
 ## Classic
@@ -301,11 +305,11 @@ The `LSPCA.f` function estimates the localized and sparse principal components o
 nu_v <- c(0,.2,.4,.6,.8,1)
 
 ## Without smoothing
-LSDPCA_ADMM_SOAP_Ex3 <- LSPCA.f(n,p,f_D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0)
+Ex3 <- LSPCA.f(n,p,f_D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0)
 
 
 ## With smoothing
-LSDPCA_ADMM_SOAP_Ex4 <- LSPCA.f(n,p,f_D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0.6)
+Ex4 <- LSPCA.f(n,p,f_D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0.6)
 
 ```
 

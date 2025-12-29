@@ -353,7 +353,7 @@ f_xx1 <- F_tp1*n
 rm(U)
 rm(X_tp)
 rm(F_tp_list)
-#gc()
+gc()
 
 ```
 
@@ -496,7 +496,7 @@ f_xx1 <- F_tp1*n
 rm(U)
 rm(X_tp)
 rm(F_tp_list)
-#gc()
+gc()
 
 ```
 

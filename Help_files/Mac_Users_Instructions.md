@@ -25,7 +25,7 @@ make
 
 7. loading all package dependencies by running: 
 ```
-source("project/R/setup.R")
+source("project/LSPCA/R/setup.R")
 ```
 
 LSPCA package is loaded and ready to use!

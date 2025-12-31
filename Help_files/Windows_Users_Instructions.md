@@ -1,23 +1,24 @@
-Mac users would need to install [Docker Desktop](https://www.docker.com/products/docker-desktop/) to be able to run the R package. Instructions on how to install Docker and run the LSPCA package are provided below. Note that Docker Desktop is supported on the current and two previous major macOS releases.
+Windows users can run the LSPCA on Docer Desktop by following steps.
 
-1. Install brew (if not already installed):
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) for Windows and create an account. 
+
+2. Next you wowuld need to downlowad the LSPCA package from the Guithub repository "jamnamdari\LSPCA" and extract the zipped file.
+
+3. Open Windows PowerShell and cd to the LSPCA folder.
+
+4. run the following commands in Windows PowerShell
+
 ```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+docker . -t lspca
 ```
-2. Setup Docker Desktop:
+and 
+
 ```
-brew install --cask docker
+ docker run --rm -d -p 8787:8787 -e USER=test -e PASSWORD=1234 -e ROOT=TRUE -v "${PWD}:/home/test/project" --name lspca lspca
 ```
 
-Next you wowuld need to downlowad the LSPCA package from the Guithub repository "jamnamdari\LSPCA" 
-
-3. cd into LSPCA project and run:
-```
-make
-```
-
-4. type "http://localhost:8787" in chrome browser
-5. login with
+5. type "http://localhost:8787" in chrome browser
+6. login with
    
    username: test
    
@@ -25,7 +26,7 @@ make
 
 7. loading all package dependencies by running: 
 ```
-source("project/R/setup.R")
+source("project/LSPCA/R/setup.R")
 ```
 
 LSPCA package is loaded and ready to use!

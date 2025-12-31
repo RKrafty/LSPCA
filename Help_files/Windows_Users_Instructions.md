@@ -1,4 +1,4 @@
-Windows users can run the LSPCA on Docer Desktop by following steps.
+Windows users can run the LSPCA on Docker Desktop by the following steps.
 
 1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) for Windows and create an account. 
 

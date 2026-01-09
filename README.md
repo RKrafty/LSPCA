@@ -36,12 +36,6 @@ install_github("yixuan/gradfps")
 ```
 The other libraries are aveilabe on CRAN and can be installed by calling `install.packages("name_of_the_package")`.
 
-Note that `gradfps` would need a C++ compiler that supports the C++11 standard.
-The authors of `gradfps` have suggested that "For best performance, it is strongly suggested linking your R to the
-[OpenBLAS](https://www.openblas.net/) library for matrix computation.
-You can achieve this with the help of the
-[ropenblas](https://prdm0.github.io/ropenblas/) package".
-
 We suggest to call the following libraries before running the examples.
 
 ```r

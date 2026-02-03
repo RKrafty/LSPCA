@@ -7,35 +7,17 @@ by Jamshid Namdari, Amita Manatunga,Fabio Ferrarelli, and Robert Krafty.
 In order to perform the localized and sparse principal component analysis in the frequency domain, users have two options. They can either use the function `LSPCA` and pass the time domain recording of the time series or they can use the function `LSPCA.f` and pass an estimate of the spectral density matrices.
 
 ## Installation
+In this branch, we provide instructions on how to run the LSPCA package on a Docker container. In addition, we provide instructions on how to reproduce plots that are presented in the paper. 
+
+Note that, a container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. It ensures that an application runs the same way on any machine, regardless of the host machine's specific environment or settings.
 
 ### Mac users
-In structionson how to run the LSPCA package for mac users are provided in <a href="./Help_files/Mac_Users_Instructions.md">mac users instruction</a> file.
+In structionson how to run the LSPCA package for mac users are provided in the <a href="./Help_files/Mac_Users_Instructions.md">mac users instruction</a> file.
 
 ### Windows users
-The `LSPCA` can be installed dirrectly from GitHub by running the following code in R. If this method does not work on your computer, you can run the LSPCA on Docker Desctop. Instructions are provided in in <a href="./Help_files/Windows_Users_Instructions.md">windows users instruction</a> file.
+Instructions are provided in the <a href="./Help_files/Windows_Users_Instructions.md">windows users instruction</a> file.
 
-```r
-library(devtools)
-install_github("jamnamdari/LSPCA")
-```
-
-The `LSPCA()` function requires the user to install and call the following libraries
-
-+ library(astsa)
-+ library(waveslim)
-+ library(ggplot2)
-+ library(RSpectra)
-+ library(lpSolve)
-+ library(gradfps)
-
-Note that `gradfps` is not available on CRAN and can be installed from their authors` guithub page.
-
-```r
-library(devtools)
-install_github("yixuan/gradfps")
-```
-The other libraries are aveilabe on CRAN and can be installed by calling `install.packages("name_of_the_package")`.
-
+## Dependencies
 We suggest to call the following libraries before running the examples.
 
 ```r
@@ -110,7 +92,8 @@ asp = .5 #0.2
 bar_height = 10/2
 font_size = 20/2
 
-
+p <- ncol(D)
+n <- nrow(D)
 
 Localized_Est <- selector(Ex1[[1]],f_D,n/2,(2/5)*512,p)
 evecs <- t(Mod(Localized_Est[[1]]))
@@ -163,7 +146,8 @@ asp = .5 #0.2
 bar_height = 10/2
 font_size = 20/2
 
-
+p <- ncol(D)
+n <- nrow(D)
 
 Localized_Est <- selector(Ex2[[1]],f_D,n/2,(2/5)*512,p)
 evecs <- t(Mod(Localized_Est[[1]]))

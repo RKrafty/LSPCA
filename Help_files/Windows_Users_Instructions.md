@@ -9,7 +9,7 @@ Windows users can run the LSPCA on Docker Desktop by the following steps.
 4. run the following commands in Windows PowerShell
 
 ```
-docker . -t lspca
+docker build . -t lspca
 ```
 and 
 

@@ -81,7 +81,7 @@ D <- cbind(X_omega_2, X_wn)
 ```
 
 ## Population Spectral Density Matrices
-The R-code provided below generates the dataframe `D` in the R package. Detailed description of the process is provided in the manuscript. 
+The R-code provided below produces the spectral density matrices of the process provided in the manuscript. 
 
 ```r
 #############################################################################

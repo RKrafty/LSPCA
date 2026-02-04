@@ -281,6 +281,8 @@ The `LSPCA.f` function estimates the localized and sparse principal components o
 ## Estimate of 1-dimensional principal subspaces
 ##################################################
 nu_v <- c(0,.2,.4,.6,.8,1)
+p <- ncol(D)
+n <- nrow(D)
 
 ## Without smoothing
 Ex3 <- LSPCA.f(n,p,f_D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0)

@@ -18,7 +18,6 @@ library(dplR)
 ```
 
 ## Time Domain
-
 The R-code provided below generates the dataframe `D` in the R package. Detailed description of the process is provided in the manuscript. 
 
 
@@ -79,8 +78,12 @@ D <- cbind(X_omega_2, X_wn)
 
 ## End of data generation ##
 ############################
+```
 
+## Population Spectral Density Matrices
+The R-code provided below generates the dataframe `D` in the R package. Detailed description of the process is provided in the manuscript. 
 
+```r
 #############################################################################
 ## Below is the code to construct the population spectral density matrices
 ## Population Spectral Density Matrices
@@ -144,7 +147,6 @@ for(ell in 1:length(omega)){
 ```
 
 ## Spectral Density Estimation
-
 The R-code provided below estimates the spectral density matrices of the time series simulated above. This reproduces the object `f_D` in the R package.
 
 ```r

@@ -42,6 +42,7 @@ phi_1 <- 1.5
 phi_2 <- -.75
 a1 <- 1/20
 a2 <- -1/1.15
+c1 <- 3
 
 Xt10 <- arima.sim(list(order=c(4,0,0), ar=c(a1+phi_1,a2-a1*phi_1+phi_2,-(phi_1*a2+phi_2*a1), -phi_2*a2)), n = n)*(1/c1)
 Xt1 <- pass.filt(Xt10, W=c(0.05, 0.25), type="pass", method = "Butterworth")

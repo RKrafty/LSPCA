@@ -24,9 +24,10 @@ and
    
    password: 1234
 
-7. loading all package dependencies by running: 
+7. installing and loading the package: 
 ```
-source("project/LSPCA/R/setup.R")
+install.packages("project", repos = NULL, type = "source")
+library(LSPCA)
 ```
 
 LSPCA package is loaded and ready to use!

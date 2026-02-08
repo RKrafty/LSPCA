@@ -1,21 +1,5 @@
 # Data Generation
-We suggest to call the following libraries before running the examples.
 
-```r
-library(gradfps)
-library(RSpectra)
-library(mvtnorm)
-library(Matrix)
-library(ggplot2)
-library(astsa)
-library(lpSolve)
-library(lattice)
-library(astsa)
-library(waveslim)
-library(LSPCA)
-library(dplR)
-
-```
 
 ## Time Domain
 The R-code provided below generates the dataframe `D` in the R package. Detailed description of the process is provided in the manuscript. 

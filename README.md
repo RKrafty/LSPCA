@@ -171,6 +171,13 @@ ggplot(gdat, aes(x = x, y = y, fill = z)) + geom_tile() +
 To run this code, you would first need to run the code provided in the <a href="./Help_files/Data_Generation.md">data generation file</a>.
 
 ``` r
+xlab <- "Hz"
+ylab <- "Coordinate"
+legend_title = ""
+asp = .5 #0.2
+bar_height = 10/2
+font_size = 20/2
+
 ## Population
 Localized_Est <- selector(f_evec11,f_xx,n/2,(2/5)*512,p)
 evecs <- t(Mod(Localized_Est[[1]]))

@@ -6,6 +6,11 @@ The R-code provided below generates the dataframe `D` in the R package. Detailed
 
 
 ```r
+library(astsa)
+library(mvtnorm)
+library(dplR)
+library(RSpectra)
+
 set.seed(1000*3+12)
 
 #####################
@@ -20,11 +25,6 @@ a2 <- -1/1.15
 omega <- seq(0,.5, length.out = n/2)
 
 len_freq <- n/2
-
-phi_1 <- 1.5
-phi_2 <- -.75
-a1 <- 1/20
-a2 <- -1/1.15
 c1 <- 3
 
 Xt10 <- arima.sim(list(order=c(4,0,0), ar=c(a1+phi_1,a2-a1*phi_1+phi_2,-(phi_1*a2+phi_2*a1), -phi_2*a2)), n = n)*(1/c1)

@@ -26,8 +26,8 @@ and
 
 7. installing and loading the package: 
 ```
-install.packages("project", repos = NULL, type = "source")
 library(LSPCA)
+source("project/R/setup.R")
 ```
 
 LSPCA package is loaded and ready to use!

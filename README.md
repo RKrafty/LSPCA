@@ -10,6 +10,8 @@ In this branch, we provide instructions on how to run the LSPCA package on a Doc
 
 Note that, a container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. It ensures that an application runs the same way on any machine, regardless of the host machine's specific environment or settings.
 
+<span style="color:red">The second branch <a href="https://github.com/jamnamdari/LSPCA/tree/Windows-only">"Windows-only"</a> contains a Windows only package that can be installed directly.</span>
+
 ### Mac users
 
 Instructions on how to run the LSPCA package for mac users are provided in the <a href="./Help_files/Mac_Users_Instructions.md">mac users instruction</a> file.
@@ -287,6 +289,8 @@ Ex4 <- LSPCA.f(n,p,f_D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0.6)
 
 ## HC
 
+The dataframe `HC` provide in the package contains 64 chanell EEG recording of a Healthy Control subject collected as part of an NIH funded study (R01MH113827)). Data wwere collected while the participant sat in a chair and relaxed with their eyes open. The data are sampled at 4 Hz for one minutes.
+
 You can use the following code to reproduce the top panels of Figure 5 of the main manuscript.
 
 ### Principal Subspace Estimation
@@ -394,6 +398,8 @@ ggplot(gdat, aes(x = x, y = y, fill = z)) + geom_tile() +
 <img src="./LSPCA_images/HC_pc2.jpeg" width="600px"/>
 
 ## FEP
+
+The dataframe `FEP` provide in the package contains 64 chanell EEG recording of a First Epesode Psychotic subject collected as part of an NIH funded study (R01MH113827)). Data wwere collected while the participant sat in a chair and relaxed with their eyes open. The data are sampled at 4 Hz for one minutes.
 
 You can use the following code to reproduce the bottom panels of Figure 5 of the main manuscript.
 

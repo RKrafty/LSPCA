@@ -305,6 +305,9 @@ HC_LSPCA <- LSPCA(X, d=2, eta=52, s=8, n_iter = 20, theta=0.6)
 The top left panel of Figure 5 of the main manuscript can be reproduced by the following code.
 
 ``` r
+library(latex2exp)
+library(ggplot2)
+
 ## Plot
 
 xlab <- "Hz"
@@ -409,6 +412,9 @@ FEP_LSPCA <- LSPCA(X, d=2, eta=41, s=8, n_iter = 20, theta=0.2)
 The bottom left panel of Figure 5 of the main manuscript can be reproduced by the following code.
 
 ``` r
+library(latex2exp)
+library(ggplot2)
+
 ## Plot
 
 xlab <- "Hz"

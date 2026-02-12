@@ -20,10 +20,11 @@ Instructions are provided in the <a href="./Help_files/Windows_Users_Instruction
 
 ## Dependencies
 
-We suggest to loading latex2exp before conducting the analyses. It will be used for creating figures.
+We suggest to loading latex2exp and ggplot2 before conducting the analyses. It will be used for creating figures.
 
 ``` r
 library(latex2exp)
+library(ggplot2)
 ```
 
 ## Example
@@ -51,9 +52,6 @@ We estimate the leading principal subspace of the underlying spectral density ma
 ## Estimate of 1-dimensional principal subspaces
 ##################################################
 
-## Load the Simulated Data
-data(simulated_data)
-
 ## Without smoothing
 Ex1 <- LSPCA(D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0, ntp=20)
 
@@ -72,6 +70,8 @@ Bottom Left panel of Figure 2 of the main manuscript can be reproduced by the fo
 ###########################
 ## Plots
 ###########################
+library(latex2exp)
+library(ggplot2)
 
 xlab <- "Hz"
 ylab <- "Coordinate"
@@ -211,7 +211,7 @@ ggplot(gdat, aes(x = x, y = y, fill = z)) + geom_tile() +
 
 ### Top Right Panel of Figure 2
 
-To run this code, you would first need to run the code provided in the <a href="./Help_files/Data_Generation.md">data generation file</a>.
+To run this code, you would first need to run the code provided in the <a href="./Help_files/Data_Generation.md">data generation file</a>, if not run previously.
 
 ``` r
 ## Classic
@@ -271,17 +271,12 @@ The `LSPCA.f` function estimates the localized and sparse principal components o
 ## Estimate of 1-dimensional principal subspaces
 ##################################################
 
-## Load the data
-data(Spectral_density_simulated_data)
-
 ## Set parameters
-nu_v <- c(0,.2,.4,.6,.8,1)
 p <- ncol(D)
 n <- nrow(D)
 
 ## Without smoothing
 Ex3 <- LSPCA.f(n,p,f_D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0)
-
 
 ## With smoothing
 Ex4 <- LSPCA.f(n,p,f_D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0.6)
@@ -294,46 +289,9 @@ Ex4 <- LSPCA.f(n,p,f_D, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0.6)
 
 You can use the following code to reproduce the top panels of Figure 5 of the main manuscript.
 
-### Read in the Data
-
-We first read in the data and estimate the spectral density matrices.
-
-``` r
-## Data
-
-data(HC)
-X <- HC
-p <- ncol(X)
-n <- nrow(X)
-
-
-## Multitaper estimate of the spectral density matrix
-U <- sine.taper(n,10)
-X_tp <- apply(U, MARGIN = 2, function(u) u*X, simplify = FALSE)
-F_tp_list <- lapply(X_tp, FUN = function(Y) mvspec(Y,plot = FALSE) )
-
-len_freq <- n/2
-F_tp1 <- array(0, c(p, p, len_freq))
-for (ell in 1:len_freq) {
-  for(j in 1:length(F_tp_list)){
-    F_tp1[,,ell] <- F_tp1[,,ell] + F_tp_list[[j]]$fxx[,,ell]
-  }
-  F_tp1[,,ell] <- F_tp1[,,ell]/length(F_tp_list)
-}
-plot(Re(F_tp1[1,1,])*(n), type = "l", ylab = " ", main = "Estimated spectral density", ylim=c(1,2000))
-for(a in 2:p){
-  lines(Re(F_tp1[a,a,])*n, col= a)
-}
-f_xx1 <- F_tp1*n
-rm(U)
-rm(X_tp)
-rm(F_tp_list)
-gc()
-```
-
 ### Principal Subspace Estimation
 
-Next we apply the LSPCA algorithm.
+First we apply the LSPCA algorithm.
 
 ``` r
 ## Localized and sparse PCA
@@ -356,7 +314,8 @@ asp = .5 #0.2
 bar_height = 10/2
 font_size = 20/2
 
-
+p <- ncol(HC)
+n <- nrow(HC)
 
 Localized_Est <- selector(HC_LSPCA[[1]],f_xx1,n/2,52,p)
 evecs <- t(Mod(Localized_Est[[1]]))
@@ -435,48 +394,9 @@ ggplot(gdat, aes(x = x, y = y, fill = z)) + geom_tile() +
 
 You can use the following code to reproduce the bottom panels of Figure 5 of the main manuscript.
 
-### Read in the Data
-
-You can use the following code to reproduce bottom left panel of Figure 5 of the main manuscript.
-
-We first read in the data and estimate the spectral density matrices.
-
-``` r
-## Data
-
-data(FEP)
-X <- FEP
-p <- ncol(X)
-n <- nrow(X)
-
-
-## Multitaper estimate of the spectral density matrix
-U <- sine.taper(n,10)
-X_tp <- apply(U, MARGIN = 2, function(u) u*X, simplify = FALSE)
-F_tp_list <- lapply(X_tp, FUN = function(Y) mvspec(Y,plot = FALSE) )
-
-len_freq <- n/2
-F_tp1 <- array(0, c(p, p, len_freq))
-for (ell in 1:len_freq) {
-  for(j in 1:length(F_tp_list)){
-    F_tp1[,,ell] <- F_tp1[,,ell] + F_tp_list[[j]]$fxx[,,ell]
-  }
-  F_tp1[,,ell] <- F_tp1[,,ell]/length(F_tp_list)
-}
-plot(Re(F_tp1[1,1,])*(n), type = "l", ylab = " ", main = "Estimated spectral density", ylim=c(1,400))
-for(a in 2:p){
-  lines(Re(F_tp1[a,a,])*n, col= a)
-}
-f_xx1 <- F_tp1*n
-rm(U)
-rm(X_tp)
-rm(F_tp_list)
-gc()
-```
-
 ### Principal Subspace Estimation
 
-Next we apply the LSPCA algorithm.
+First we apply the LSPCA algorithm.
 
 ``` r
 ## Localized and sparse PCA
@@ -486,7 +406,7 @@ FEP_LSPCA <- LSPCA(X, d=2, eta=41, s=8, n_iter = 20, theta=0.2)
 
 ### Plots
 
-Finally, the bottom left panel of Figure 5 of the main manuscript can be reproduced by the following code.
+The bottom left panel of Figure 5 of the main manuscript can be reproduced by the following code.
 
 ``` r
 ## Plot
@@ -498,7 +418,8 @@ asp = .5 #0.2
 bar_height = 10/2
 font_size = 20/2
 
-
+p <- ncol(FEP)
+n <- nrow(FEP)
 
 Localized_Est <- selector(FEP_LSPCA[[1]],f_xx1,n/2,41,p)
 evecs <- t(Mod(Localized_Est[[1]]))

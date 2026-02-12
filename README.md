@@ -20,7 +20,7 @@ Instructions are provided in the <a href="./Help_files/Windows_Users_Instruction
 
 ## Dependencies
 
-We suggest to loading latex2exp and ggplot2 before conducting the analyses. It will be used for creating figures.
+We suggest loading `latex2exp` and `ggplot2` before conducting the analyses. It will be used for creating figures.
 
 ``` r
 library(latex2exp)

@@ -7,15 +7,10 @@ EEG recording of a Healthy Control subject
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of the dataset. ~~
-The dataframe contains 64 chanell EEG recording of a Healthy Control subject.
+The dataframe contains 64 chanell EEG recording of a Healthy Control subject collected as part of an NIH funded study (R01MH113827)). Data were collected while the participant sat in a chair and relaxed with their eyes open. The data are sampled at 64 Hz for one minutes.
 }
-\usage{data("HC")}
 \format{
-  The format is:
- num [1:2048, 1:64] -3.85 -1.32 1.43 8.39 11.23 ...
- - attr(*, "dimnames")=List of 2
-  ..$ : NULL
-  ..$ : chr [1:64] "V1" "V2" "V3" "V4" ...
+ A data frame with 1028 rows and 64 columns. Columns represent chanells and rows represent time points.
 }
 \details{
 %%  ~~ If necessary, more details than the __description__ above ~~
@@ -28,17 +23,15 @@ The dataframe contains 64 chanell EEG recording of a Healthy Control subject.
 }
 \examples{
 
-library(astsa)
-library(waveslim)
-library(ggplot2)
-
-
 ## Localized and sparse PCA
 
 LSPCA_HC <- LSPCA(HC, d=2, eta=52, s=8, n_iter = 20, theta=0.6)
 
 
 ## Plot
+library(ggplot2)
+library(latex2exp)
+
 
 xlab <- "Hz"
 ylab <- "Coordinate"
@@ -46,6 +39,8 @@ legend_title = ""
 asp = .5 #0.2
 bar_height = 10/2
 font_size = 20/2
+p <- ncol(FEP)
+n <- nrow(FEP)
 
 
 freq_s <- LSPCA_HC$selected_freqs

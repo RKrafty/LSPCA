@@ -74,11 +74,6 @@
   }
 \examples{
 
-  library(dplR)
-  library(mvtnorm)
-  library(dplR)
-  library(waveslim)
-  library(astsa)
 
   ##########################################################################################
   ## Example 1 : This example reproduces bottom right panel of Figure 2 in the manuscript
@@ -88,14 +83,15 @@
   ##################################################
   ## Estimate of 1-dimensional principal subspaces
   ##################################################
-  LSDPCA_ADMM_SOAP_Ex1 <- LSPCA(X, d=1, eta=(2/5)*512, s=5, n_iter = 20, theta=0.6, ntp=20)
+  Ex1 <- LSPCA(D, d=1, eta=(2/5)*512+10, s=5, n_iter = 20, theta=0.6, ntp=20)
 
 
 
   ###########################
-  ## Plots
+  ## Plot
   ###########################
 
+  library(ggplot2)
   library(latex2exp)
 
 
@@ -105,12 +101,13 @@
   asp = .5 #0.2
   bar_height = 10/2
   font_size = 20/2
+  p <- ncol(D)
+  n <- nrow(D)
 
 
-
-  freq_s <- LSDPCA_ADMM_SOAP_Ex1$selected_freqs
+  freq_s <- Ex1$selected_freqs
   freq_selector <- matrix(rep(freq_s, p), nrow = p, byrow = TRUE)
-  evecs <- t(freq_selector*Mod(LSDPCA_ADMM_SOAP_Ex1$Evec_series_1))
+  evecs <- t(freq_selector*Mod(Ex1$Evec_series_1))
   v = as.matrix(evecs)
   lo = min(v)
   hi = max(v)

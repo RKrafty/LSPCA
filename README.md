@@ -297,7 +297,7 @@ First we apply the LSPCA algorithm.
 
 ``` r
 ## Localized and sparse PCA
-HC_LSPCA <- LSPCA(X, d=2, eta=52, s=8, n_iter = 20, theta=0.6)
+HC_LSPCA <- LSPCA(HC, d=2, eta=52, s=8, n_iter = 20, theta=0.6)
 ```
 
 ### Plots
@@ -407,7 +407,7 @@ First we apply the LSPCA algorithm.
 ``` r
 ## Localized and sparse PCA
 
-FEP_LSPCA <- LSPCA(X, d=2, eta=41, s=8, n_iter = 20, theta=0.2)
+FEP_LSPCA <- LSPCA(FEP, d=2, eta=41, s=8, n_iter = 20, theta=0.2)
 ```
 
 ### Plots

@@ -72,8 +72,6 @@ Bottom Left panel of Figure 2 of the main manuscript can be reproduced by the fo
 ###########################
 ## Plots
 ###########################
-library(latex2exp)
-library(ggplot2)
 
 xlab <- "Hz"
 ylab <- "Coordinate"
@@ -309,8 +307,6 @@ HC_LSPCA <- LSPCA(X, d=2, eta=52, s=8, n_iter = 20, theta=0.6)
 The top left panel of Figure 5 of the main manuscript can be reproduced by the following code.
 
 ``` r
-library(latex2exp)
-library(ggplot2)
 
 ## Plot
 
@@ -324,8 +320,9 @@ font_size = 20/2
 p <- ncol(HC)
 n <- nrow(HC)
 
-Localized_Est <- selector(HC_LSPCA[[1]],f_xx1,n/2,52,p)
-evecs <- t(Mod(Localized_Est[[1]]))
+freq_s <- HC_LSPCA$selected_freqs
+freq_selector <- matrix(rep(freq_s, p), nrow = p, byrow = TRUE)
+evecs <- t(freq_selector*Mod(HC_LSPCA$Evec_series_1))v = as.matrix(evecs)
 v = as.matrix(evecs)
 lo = min(v)
 hi = max(v)
@@ -418,8 +415,6 @@ FEP_LSPCA <- LSPCA(X, d=2, eta=41, s=8, n_iter = 20, theta=0.2)
 The bottom left panel of Figure 5 of the main manuscript can be reproduced by the following code.
 
 ``` r
-library(latex2exp)
-library(ggplot2)
 
 ## Plot
 
@@ -433,8 +428,9 @@ font_size = 20/2
 p <- ncol(FEP)
 n <- nrow(FEP)
 
-Localized_Est <- selector(FEP_LSPCA[[1]],f_xx1,n/2,41,p)
-evecs <- t(Mod(Localized_Est[[1]]))
+freq_s <- FEP_LSPCA$selected_freqs
+freq_selector <- matrix(rep(freq_s, p), nrow = p, byrow = TRUE)
+evecs <- t(freq_selector*Mod(FEP_LSPCA$Evec_series_1))
 v = as.matrix(evecs)
 lo = min(v)
 hi = max(v)
